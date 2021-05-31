@@ -1,0 +1,40 @@
+mutation createMessage {
+  createMessage(message:"Your Message") {
+    createdAt
+    updatedAt
+    messageContent
+    isEdited
+  }
+}
+
+mutation deleteMessage {
+  deleteMessage(messageID:"60b4940dbe220a1e085e5c42", userID:"123") {
+   message
+  }
+}
+
+mutation updateMessage {
+ updateMessage(
+  messageID:"60b4940dbe220a1e085e5c42", 
+  editedMessage:"New Message",
+  userID:"123"
+) {
+  _id
+  messageContent
+  isEdited
+  createdAt
+  updatedAt
+}
+}
+
+query getMessage {
+  getMessages(sessionID:"zzz") {
+    _id
+    sessionId
+    userId
+    messageContent
+    createdAt
+    updatedAt
+    isEdited
+  }
+}

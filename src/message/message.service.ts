@@ -5,7 +5,6 @@ import { CommonService } from 'src/common.service';
 import { Repository } from 'typeorm';
 import { Message } from './message.entity';
 import { MessageDeleted } from './message.type';
-// import { MessageCreateType, MessageDeleted } from './message.type';
 
 @Injectable()
 export class MessageService extends CommonService {

@@ -10,6 +10,7 @@ export type MessageCreateType = {
   userId: string;
   messageContent: string;
 };
+
 @ObjectType('MessageDeleted') 
 export class MessageDeleted {
   @Field()
