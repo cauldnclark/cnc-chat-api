@@ -5,6 +5,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   await app.listen(8080);
 
-  console.log('http://localhost:8080');
+  console.log('\nRunning at http://localhost:8080');
 }
 bootstrap();
