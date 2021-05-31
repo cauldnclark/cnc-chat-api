@@ -10,6 +10,11 @@ export type MessageCreateType = {
   userId: string;
   messageContent: string;
 };
+@ObjectType('MessageDeleted') 
+export class MessageDeleted {
+  @Field()
+  message: string;
+}
 
 // graphql types
 @ObjectType('Message')
@@ -25,6 +30,9 @@ export class MessageType {
 
   @Field()
   messageContent: string;
+
+  @Field({ nullable:true })
+  isEdited: boolean;
 
   @Field()
   createdAt: Date;

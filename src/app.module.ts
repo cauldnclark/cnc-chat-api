@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AppService } from './app.service';
       autoSchemaFile: true,
       sortSchema: true,
     }),
+    MessageModule
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],

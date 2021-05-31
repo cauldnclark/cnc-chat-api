@@ -14,6 +14,9 @@ export class Message extends BaseEntity {
   @Column()
   messageContent: string;
 
+  @Column({ default: false })
+  isEdited: boolean;
+
   @Column('date', { default: new Date() })
   createdAt: Date;
 
