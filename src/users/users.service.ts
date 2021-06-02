@@ -14,15 +14,24 @@ export class UsersService {
   constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
 
   async getUser(_id: string): Promise<User> {
-    const user = await this.userRepo.findOne(_id);
+    try {
+      const user = await this.userRepo.findOne(_id);
+      if (!user) throw new NotFoundException('User not found.');
 
-    if (!user) throw new NotFoundException('User not found.');
-
-    return user;
+      return user;
+    } catch (ex) {
+      console.log(ex.message);
+      return null;
+    }
   }
 
   async getUsers(): Promise<User[]> {
-    return await this.userRepo.find();
+    try {
+      return await this.userRepo.find();
+    } catch (ex) {
+      console.log(ex.message);
+      return null;
+    }
   }
 
   async create(createUserInput: CreateUserInput): Promise<User> {
@@ -31,55 +40,73 @@ export class UsersService {
     if (await this.isUserExist(username, email))
       throw new BadRequestException('User is already existing.');
 
-    const saltOrRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltOrRounds);
+    try {
+      const saltOrRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltOrRounds);
 
-    const user = this.userRepo.create({
-      firstName,
-      lastName,
-      email,
-      username,
-      password: hashedPassword,
-    });
+      const user = this.userRepo.create({
+        firstName,
+        lastName,
+        email,
+        username,
+        password: hashedPassword,
+      });
 
-    await this.userRepo.save(user);
+      await this.userRepo.save(user);
 
-    delete user.password;
+      delete user.password;
 
-    return user;
+      return user;
+    } catch (ex) {
+      console.log(ex);
+      return null;
+    }
   }
 
   async updateUser(
     updateUserInput: UpdateUserInput,
     userId: string,
   ): Promise<User> {
-    await this.userRepo.update(userId, updateUserInput);
+    try {
+      await this.userRepo.update(userId, updateUserInput);
 
-    const updatedUser = await this.getUser(userId);
+      const updatedUser = await this.getUser(userId);
 
-    return updatedUser;
+      return updatedUser;
+    } catch (ex) {
+      console.log(ex.message);
+      return null;
+    }
   }
 
   async deleteUser(userId: string): Promise<User> {
-    const user = await this.getUser(userId);
-
+    const user: User = await this.getUser(userId);
     if (!user) throw new NotFoundException(`User not found.`);
 
-    await this.userRepo.delete(userId);
+    try {
+      await this.userRepo.delete(userId);
 
-    delete user.password;
-
-    return user;
+      delete user.password;
+      return user;
+    } catch (ex) {
+      console.log(ex.message);
+      return null;
+    }
   }
 
   private async isUserExist(username: string, email: string): Promise<Boolean> {
-    const userDup = await this.userRepo.findOne({ username });
-    const emailDup = await this.userRepo.findOne({ email });
+    try {
+      const userDup: User = await this.userRepo.findOne({ username });
+      const emailDup: User = await this.userRepo.findOne({ email });
 
-    if (userDup || emailDup) {
-      return true;
+      if (userDup || emailDup) {
+        return true;
+      }
+
+      return false;
+    } catch (ex) {
+      console.log(ex.message);
+      return null;
     }
-
-    return false;
   }
 }

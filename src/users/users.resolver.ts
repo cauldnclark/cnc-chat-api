@@ -7,24 +7,24 @@ import { UsersService } from './users.service';
 export class UsersResolver {
   constructor(private userService: UsersService) {}
 
-  @Query((returns) => UserPublicType)
+  @Query((returns) => UserPublicType, { nullable: true })
   async user(@Args('_id') _id: string): Promise<User> {
     return await this.userService.getUser(_id);
   }
 
-  @Query((returns) => [UserPublicType])
+  @Query((returns) => [UserPublicType], { nullable: true })
   async users(): Promise<User[]> {
     return this.userService.getUsers();
   }
 
-  @Mutation((returns) => UserPublicType)
+  @Mutation((returns) => UserPublicType, { nullable: true })
   async signUp(
     @Args('createUserInput') createUserInput: CreateUserInput,
   ): Promise<User> {
     return await this.userService.create(createUserInput);
   }
 
-  @Mutation((returns) => UserPublicType)
+  @Mutation((returns) => UserPublicType, { nullable: true })
   async updateUser(
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
     @Args('userId') userId: string,
@@ -32,7 +32,7 @@ export class UsersResolver {
     return await this.userService.updateUser(updateUserInput, userId);
   }
 
-  @Mutation((returns) => UserPublicType)
+  @Mutation((returns) => UserPublicType, { nullable: true })
   async deleteUser(@Args('userId') userId: string): Promise<User> {
     return this.userService.deleteUser(userId);
   }
