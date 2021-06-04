@@ -31,6 +31,7 @@ export class MessageService extends CommonService {
       userId:"555",
       sessionId:'zzz',
       isEdited:false,
+      seenBy:[],
       createdAt: new Date(),
       updatedAt: new Date()
     });
@@ -97,5 +98,22 @@ export class MessageService extends CommonService {
     }
 
   }
+  async seenMessage(messageID:string, userID:string) {
+      const foundMessages = await this.findOneMessage(messageID)
 
+
+      if(foundMessages) {
+        // Get the seeners array of ID first
+        // then add the new seeners to the array
+        // this array will be used to populate (in mongoose) or for reference to users entity
+        const seeners = foundMessages.seenBy
+
+        const newMessage = {
+          ...foundMessages,
+          seenBy:[...seeners, userID]
+        }
+        return  await this.MessageRepo.save(newMessage)
+      }
+    
+  }
 }

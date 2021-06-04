@@ -29,6 +29,14 @@ export class MessageResolver {
        return this.messageService.deleteMessage(messageID,userID)
     }
 
+    @Mutation(() => MessageType)
+    seen(
+        @Args('messageID') messageID:string,
+        @Args('userID') userID:string,
+        ){
+       return this.messageService.seenMessage(messageID, userID)
+    }
+
     @Query(() => [MessageType])
     getMessages(
         @Args('sessionID') sessionID:string,

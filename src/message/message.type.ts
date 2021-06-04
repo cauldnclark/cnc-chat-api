@@ -17,6 +17,7 @@ export class MessageDeleted {
   message: string;
 }
 
+
 // graphql types
 @ObjectType('Message')
 export class MessageType {
@@ -31,6 +32,9 @@ export class MessageType {
 
   @Field()
   messageContent: string;
+
+  @Field(() => [String], { nullable:true })
+  seenBy: string[];
 
   @Field({ nullable:true })
   isEdited: boolean;

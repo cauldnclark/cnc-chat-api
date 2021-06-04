@@ -3,23 +3,26 @@ import { BaseEntity, Column, Entity, ObjectIdColumn } from 'typeorm';
 @Entity()
 export class Message extends BaseEntity {
   @ObjectIdColumn()
-  _id: string;
+  _id?: string;
 
   @Column()
-  sessionId: string;
+  sessionId?: string;
 
   @Column()
-  userId: string;
+  userId?: string;
 
   @Column()
-  messageContent: string;
+  messageContent?: string;
+
+  @Column({ default: [] })
+  seenBy?: string[];
 
   @Column({ default: false })
-  isEdited: boolean;
+  isEdited?: boolean;
 
   @Column('date', { default: new Date() })
-  createdAt: Date;
+  createdAt?: Date;
 
   @Column('date', { default: new Date() })
-  updatedAt: Date;
+  updatedAt?: Date;
 }
