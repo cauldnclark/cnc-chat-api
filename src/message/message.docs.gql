@@ -26,6 +26,13 @@ mutation updateMessage {
   updatedAt
 }
 }
+mutation seenMessage {
+  seen(userID:"237", messageID:"60b9e2b6cea2321ac0442a92") {
+    sessionId
+    createdAt
+    seenBy
+  }
+}
 
 query getMessage {
   getMessages(sessionID:"zzz") {
