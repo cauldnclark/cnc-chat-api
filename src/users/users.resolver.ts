@@ -1,4 +1,6 @@
+import { UseGuards } from '@nestjs/common';
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { GqlAuthGuard } from 'src/auth/graphql-auth.guard';
 import { CreateUserInput, UpdateUserInput, User } from './user.entity';
 import { UserPublicType, UserType } from './user.type';
 import { UsersService } from './users.service';
@@ -8,6 +10,7 @@ export class UsersResolver {
   constructor(private userService: UsersService) {}
 
   @Query((returns) => UserPublicType, { nullable: true })
+  @UseGuards(GqlAuthGuard)
   async user(@Args('_id') _id: string): Promise<User> {
     return await this.userService.getUser(_id);
   }

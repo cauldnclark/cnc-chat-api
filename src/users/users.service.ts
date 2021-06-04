@@ -94,6 +94,19 @@ export class UsersService {
     }
   }
 
+  async login(username: string): Promise<User> {
+    try {
+      const user: User = await this.userRepo.findOne({
+        username,
+      });
+
+      return user ? user : null;
+    } catch (ex) {
+      console.log(ex.message);
+      return null;
+    }
+  }
+
   private async isUserExist(username: string, email: string): Promise<Boolean> {
     try {
       const userDup: User = await this.userRepo.findOne({ username });
