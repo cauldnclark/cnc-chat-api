@@ -16,6 +16,7 @@ export class UsersResolver {
   }
 
   @Query((returns) => [UserPublicType], { nullable: true })
+  @UseGuards(GqlAuthGuard)
   async users(): Promise<User[]> {
     return this.userService.getUsers();
   }
@@ -28,6 +29,7 @@ export class UsersResolver {
   }
 
   @Mutation((returns) => UserPublicType, { nullable: true })
+  @UseGuards(GqlAuthGuard)
   async updateUser(
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
     @Args('userId') userId: string,
@@ -36,6 +38,7 @@ export class UsersResolver {
   }
 
   @Mutation((returns) => UserPublicType, { nullable: true })
+  @UseGuards(GqlAuthGuard)
   async deleteUser(@Args('userId') userId: string): Promise<User> {
     return this.userService.deleteUser(userId);
   }
